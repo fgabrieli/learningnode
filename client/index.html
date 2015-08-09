@@ -1,0 +1,38 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+<!-- propietary libs -->
+<script src="js/nc/nc.js"></script>
+<script src="js/nc/Event.js"></script>
+
+<!-- angular app -->
+<script src="js/webApp.js"></script>
+
+<script src="js/ChatClient.js"></script>
+
+<script src="js/ChatController.js"></script>
+
+
+<link href="css/client.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body data-ng-app="webApp">
+
+  <div data-ng-controller="ChatController">
+
+    <div class="chat">
+      <span class="message" data-ng-repeat="m in msgs">&gt; {{m.text}}</span>
+    </div>
+
+    <div class="write">
+      <input type="text" size="45" data-ng-model="msg" data-ng-keyup="onKeyUp($event)" />
+
+      <button data-ng-click="sendMsg()">Send message</button>
+    </div>
+
+  </div>
+</body>
+</html>

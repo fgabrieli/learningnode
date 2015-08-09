@@ -1,0 +1,24 @@
+.chat {
+  margin: 0 auto;
+  position: relative;
+  width: 500px;
+  height: 400px;
+  margin-top: 50px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 5px;
+  border: 1px solid #003366;
+}
+
+.write {
+  position: relative;
+  margin: 0 auto;
+  width: 455px;
+  margin-top: 20px;
+}
+
+.message {
+  display: block;
+  font-family: Verdana;
+  line-height: 1.5;
+}
