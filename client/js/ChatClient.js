@@ -8,6 +8,11 @@ var ChatClientFactory = {
 
 var ChatClient = {
   SERVER_HOST : 'localhost',
+  
+  msgType : {
+    register : 'chatRegister',
+    message : 'chatMessage',
+  },
 
   PORT : 8734,
 
@@ -26,8 +31,36 @@ var ChatClient = {
     });
   },
 
+  register : function(name) {
+    this.send({
+      type : this.msgType.register,
+      data : {
+        name : name
+      }
+    });
+  },
+  
+  say : function(msg) {
+    this.send({
+      type : this.msgType.message,
+      data : {
+        msg : msg
+      }
+    });
+  },
+  
+  /**
+   * private
+   * 
+   * @param Object with message type and data
+   */
   send : function(msg) {
-    this.ws.send(msg);
+    var finalMsg = '';
+    if (typeof msg == 'object') {
+      finalMsg = JSON.stringify(msg);
+    }
+    
+    this.ws.send(finalMsg);
   }
 
 }

@@ -18,7 +18,7 @@ var ChatController = {
     });
 
     $scope.sendMsg = function() {
-      t.client.send($scope.msg);
+      t.client.say($scope.msg);
       $scope.msg = '';
     };
 

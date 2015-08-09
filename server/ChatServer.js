@@ -17,26 +17,16 @@ var ChatServer = {
     wss.on('connection', function connection(ws) {
       console.log('client connected');
       t.addClient(ws);
-      t.setupClient(ws);
+      
+      ws.on('close', function() {
+        t.removeClient(client);
+      });
     });
   },
 
-  setupClient : function(client) {
-    var t = ChatServer;
-
-    client.on('message', function incoming(msg) {
-      t.broadcast(msg);
-    });
-
-    client.on('close', function() {
-      t.removeClient(client);
-    });
-  },
-
-  addClient : function(client) {
-    var t = ChatServer;
-
-    t.clients.push(client);
+  addClient : function(ws) {
+    var client = new ChatClient(ws);
+    this.clients.push(client);
   },
 
   removeClient : function(client) {
@@ -57,6 +47,54 @@ var ChatServer = {
       t.clients[i].send(msg);
     }
   }
+
+}
+
+// Using javascript constructors, i thought they were useful here to handle the chat clients, each one is a separate instance
+var ChatClient = function(ws) {
+  var registered = false;
+  var ws = {};
+
+  var t = this;
+  
+  t.setRegistered = function(val) {
+    regitered = val;
+  }
+  
+  ws.on('message', function incoming(msgJson) {
+    ChatMsgHandler.process(t, msgJson);
+  });
+}
+
+var ChatMsgHandler = {
+
+  // static
+  process : function(client, msgJson) {
+    var t = ChatMsgHandler;
+
+    console.log(msgJson);
+
+    var msg = JSON.parse(msgJson);
+
+    var msgType = msg.type;
+    var handler = t[msgType];
+    var hasHandler = (typeof handler != 'undefined');
+    if (hasHandler) {
+      handler(msg);
+    }
+  },
+
+  chatRegister : function(client, msg) {
+    console.log('chatRegister', client, msg);
+    
+    client.setRegistered(true);
+  },
+
+  chatMsg : function(client, msg) {
+    console.log('chatMsg', client, msg);
+  }
+
+// add more handlers here by declaring functions with the msg type as their name
 
 }
 
