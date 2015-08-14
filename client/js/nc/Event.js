@@ -1,4 +1,6 @@
 /**
+ * nc lib
+ * 
  * Handle events.
  * 
  * @author Fernando Gabrieli

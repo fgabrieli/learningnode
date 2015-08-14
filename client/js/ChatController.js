@@ -1,3 +1,9 @@
+/**
+ * nodeChat v0.1 
+ * 
+ * @author Fernando Gabrieli
+ */
+
 var ChatController = {
   client : {},
 
@@ -10,9 +16,11 @@ var ChatController = {
 
     $scope.msgs = [];
 
-    nc.Event.bind('msgReceived', 'ChatController', function(data) {
+    $scope.isRegistered = false;
+    
+    nc.Event.bind('msgReceived', 'ChatController', function(msg) {
       $scope.msgs.push({
-        text : data.msg
+        text : msg.text
       });
       $scope.$apply();
     });
@@ -28,6 +36,18 @@ var ChatController = {
       if (e.keyCode == KEY_ENTER) {
         $scope.sendMsg();
       }
+    };
+    
+    $scope.register = function() {
+      t.client.register($scope.name);
+      
+      // XXX: need to implement veryfing the ack from server, otherwise we are blinded
+      
+//      
+//      function onSuccess() {
+        $scope.isRegistered = true;
+        $scope.$apply();
+//      });
     }
   }
 }

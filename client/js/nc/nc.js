@@ -1,5 +1,5 @@
 /**
- * No clue lib.
+ * nc lib
  * 
  * @author Fernando Gabrieli
  */

@@ -22,15 +22,23 @@
 <body data-ng-app="webApp">
 
   <div data-ng-controller="ChatController">
-
-    <div class="chat">
-      <span class="message" data-ng-repeat="m in msgs">&gt; {{m.text}}</span>
+  
+    <div class="register-view" data-ng-show="!isRegistered">
+      Enter your name: 
+      <input type="text" data-ng-model="name" />
+      <button data-ng-click="register()">Connect</button>
     </div>
 
-    <div class="write">
-      <input type="text" size="45" data-ng-model="msg" data-ng-keyup="onKeyUp($event)" />
+    <div class="chat-view" data-ng-show="isRegistered">
+      <div class="chat">
+        <span class="message" data-ng-repeat="m in msgs">&gt; {{m.text}}</span>
+      </div>
 
-      <button data-ng-click="sendMsg()">Send message</button>
+      <div class="write">
+        <input type="text" size="45" data-ng-model="msg" data-ng-keyup="onKeyUp($event)" />
+
+        <button data-ng-click="sendMsg()">Send message</button>
+      </div>
     </div>
 
   </div>
