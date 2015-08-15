@@ -31,7 +31,7 @@
 
     <div class="chat-view" data-ng-show="isRegistered">
       <div class="chat">
-        <span class="message" data-ng-repeat="m in msgs">&gt; {{m.text}}</span>
+        <span class="message" data-ng-repeat="msg in msgs" data-ng-class="{myMessage : msg.isMine}">&lt;{{msg.sender}}&gt; {{msg.text}}</span>
       </div>
 
       <div class="write">

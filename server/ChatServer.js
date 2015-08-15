@@ -8,28 +8,43 @@ var ChatServer = {
   LISTEN_ADDRESS : '0.0.0.0',
   LISTEN_PORT : 8734,
 
-  serverWs = {},
+  serverWs : {},
   
   clients : [],
 
   start : function() {
+    var success = true;
+    
     var t = ChatServer;
 
-    this.serverWs = t.getWebSocket();
+    try {
+      t.serverWs = t.getWebSocket();
+    } catch(e) {
+      console.log(e);
+      success = false;
+    }
 
-    this.serverWs.on('connection', t.onConnection);
+    if (success) {
+      console.log('Server started');
+      
+      t.serverWs.on('connection', t.onConnection);
+      
+      ChatMsgHandler.init(this);
+    }
     
-    ChatMsgHandler.init(this);
+    return success;
   },
   
   getWebSocket : function() {
     var WebSocketServer = require('ws').Server;
 
-    return new WebSocketServer({
+    var wss = new WebSocketServer({
       address : this.LISTEN_ADDRESS,
       port : this.LISTEN_PORT
     });
-  }
+    
+    return wss;
+  },
 
   onConnection : function(cliWs) {
     var t = ChatServer;
@@ -42,7 +57,13 @@ var ChatServer = {
       ChatMsgHandler.process(client, msgJson);
     });
 
-    this.serverWs.on('close', function() {
+    t.serverWs.on('close', function() {
+      console.log('connection closed for', client.getName(), client);
+      t.removeClient(client);
+    });
+    
+    t.serverWs.on('error', function(err) {
+      console.log('received error', err, 'from client', client.getName(), client, 'removing...');
       t.removeClient(client);
     });
   },
@@ -60,6 +81,7 @@ var ChatServer = {
 
     for (var i = 0; i < t.clients.length; i++) {
       if (client == t.clients[i]) {
+        console.log('removing client', t.clients[i].getName());
         t.clients.splice(i, 1);
         break;
       }
@@ -73,7 +95,13 @@ var ChatServer = {
     for (var i = 0; i < t.clients.length; i++) {
       var cli = t.clients[i];
       var ws = cli.getSocket();
-      ws.send(msgJson);
+      
+      try {
+        ws.send(msgJson);
+      } catch (e) {
+        console.log(e, 'closing connection for', cli.getName());
+        t.removeClient(cli);
+      }
     }
   },
 
@@ -173,6 +201,7 @@ var ChatMsgHandler = {
       t.server.broadcast({
         seq : 0,
         type : 'chatMessage',
+        sender : client.getName(),
         text : msg.data.text
       });
     }
@@ -183,3 +212,4 @@ var ChatMsgHandler = {
 }
 
 module.exports = ChatServer;
+

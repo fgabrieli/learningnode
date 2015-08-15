@@ -1,24 +1,53 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+
+body, button, input {
+	font-family: Lato;
+	font-size: 15px;
+}
+
+.register-view {
+	position: absolute;
+	top: calc(50% - 30px);
+	left: calc(50% - 190px);
+	width: 380px;
+	height: 30px;
+}
+
+.chat-view {
+	position: absolute;
+	top: calc(50% - 230px);
+	left: calc(50% - 260px);
+	width: 520px;
+	height: 460px;
+}
+
 .chat {
-  margin: 0 auto;
-  position: relative;
-  width: 500px;
-  height: 400px;
-  margin-top: 50px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  padding: 5px;
-  border: 1px solid #003366;
+	/* margin: 0 auto; */
+	/* position: relative; */
+	width: 500px;
+	height: 400px;
+	/* margin-top: 50px; */
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding: 5px;
+	border: 1px solid #003366;
 }
 
 .write {
-  position: relative;
-  margin: 0 auto;
-  width: 455px;
-  margin-top: 20px;
+	position: relative;
+	margin: 0 auto;
+	width: 490px;
+	top: 20px;
+	/* margin-top: 20px; */
+	margin: 0 auto;
 }
 
 .message {
-  display: block;
-  font-family: Verdana;
-  line-height: 1.5;
+	display: block;
+	font-family: Verdana;
+	line-height: 1.5;
+}
+
+.myMessage {
+	color: blue;
 }

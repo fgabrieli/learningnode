@@ -20,9 +20,15 @@ var ChatController = {
     
     nc.Event.bind('msgReceived', 'ChatController', function(msg) {
       $scope.msgs.push({
+        isMine : (msg.sender == $scope.name),
+        sender : msg.sender,
         text : msg.text
       });
       $scope.$apply();
+    });
+    
+    $(window).on('beforeunload', function() {
+      t.client.end();
     });
 
     $scope.sendMsg = function() {
