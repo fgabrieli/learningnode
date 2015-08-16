@@ -57,12 +57,12 @@ var ChatServer = {
       ChatMsgHandler.process(client, msgJson);
     });
 
-    t.serverWs.on('close', function() {
+    cliWs.on('close', function() {
       console.log('connection closed for', client.getName(), client);
       t.removeClient(client);
     });
     
-    t.serverWs.on('error', function(err) {
+    cliWs.on('error', function(err) {
       console.log('received error', err, 'from client', client.getName(), client, 'removing...');
       t.removeClient(client);
     });

@@ -52,7 +52,6 @@ var ChatController = {
 //      
 //      function onSuccess() {
         $scope.isRegistered = true;
-        $scope.$apply();
 //      });
     }
   }
